@@ -26,7 +26,7 @@
 @implementation AppDelegate{
 	LaunchAtLoginController *loginController;
 	NSMenuItem *autorunItem;
-    NSMenuItem *quitItem;
+	NSMenuItem *quitItem;
 }
 
 #pragma mark - Application Delegate methods

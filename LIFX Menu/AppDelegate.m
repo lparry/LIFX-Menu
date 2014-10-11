@@ -26,6 +26,7 @@
 @implementation AppDelegate{
 	LaunchAtLoginController *loginController;
 	NSMenuItem *autorunItem;
+    NSMenuItem *quitItem;
 }
 
 #pragma mark - Application Delegate methods
@@ -66,6 +67,11 @@
 	[self.menu addItem:autorunItem];
 	[self updateAutoLaunch];
 	
+    
+    
+    quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quitApplication) keyEquivalent:@""];
+    [self.menu addItem:quitItem];
+    
 	self.statusItem.menu = self.menu;
 	
 	
@@ -256,6 +262,12 @@
 	else {
 		[self setAutoLaunch:YES];
 	}
+}
+
+#pragma mark - Quit Application
+
+-(void)quitApplication{
+    [NSApp terminate:self];
 }
 
 

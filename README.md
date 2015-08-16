@@ -18,3 +18,9 @@ Out of date Screenshots
 ![Menu screenshot](/Screenshots/menu.png)
 ![Statusbar screenshot](/Screenshots/screnshot_1.png)
 
+
+Known Issues
+============
+
+* The all brightness slider does update to show initial brightness, or changes
+  in brightness by other means

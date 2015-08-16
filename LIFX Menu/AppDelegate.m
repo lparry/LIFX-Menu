@@ -14,6 +14,7 @@
 @interface AppDelegate () <LFXLightCollectionObserver, LFXLightObserver>
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, strong) NSMenu *menu;
+@property (nonatomic, strong) NSMenuItem *allLightsMenuItem;
 
 /**
  *  All the NSMenuItem objects for LFXLight's we have currently detected.
@@ -45,7 +46,6 @@
 	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 	self.statusItem.title = @"";
 	NSImage *icon = [NSImage imageNamed:@"lifx-icon"];
-	[icon setScalesWhenResized:YES];
 	[icon setTemplate:YES];
 	self.statusItem.image = icon;
 	self.statusItem.highlightMode = YES;
@@ -64,18 +64,29 @@
     
         //dsfsdfsd
     
-    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All Lights" action:@selector(allLightsToggle) keyEquivalent:@""];
+    self.allLightsMenuItem = [[NSMenuItem alloc] initWithTitle:@"All Lights" action:@selector(allLightsToggle) keyEquivalent:@""];
 //    [item setRepresentedObject:light];
     
     LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:@selector(changeAllBrightness:)];
     
     //[sliderItem setRepresentedObject:light];
     
-    [item setSubmenu:[[NSMenu alloc] init]];
-    [[item submenu] addItem:sliderItem];
+    [self.allLightsMenuItem setSubmenu:[[NSMenu alloc] init]];
     
-    
-    [self.menu addItem:item];
+    [self.menu addItem:self.allLightsMenuItem];
+    [self.menu addItem:[NSMenuItem separatorItem]];
+
+    [[self.allLightsMenuItem submenu] addItem:sliderItem];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"Hot White" action:@selector(allHotWhite) keyEquivalent:@""];
+    [self.menu addItem:menuItem];
+    menuItem = [[NSMenuItem alloc] initWithTitle:@"Warm White" action:@selector(allWarmWhite) keyEquivalent:@""];
+    [self.menu addItem:menuItem];
+    menuItem = [[NSMenuItem alloc] initWithTitle:@"Cool White" action:@selector(allCoolWhite) keyEquivalent:@""];
+    [self.menu addItem:menuItem];
+    menuItem = [[NSMenuItem alloc] initWithTitle:@"Cold White" action:@selector(allColdWhite) keyEquivalent:@""];
+    [self.menu addItem:menuItem];
+//    [self.menu insertItem:menuItem atIndex:(self.menu.numberOfItems - 3)];
+
     
         //dsfsdfsd
 
@@ -129,6 +140,31 @@
     
 }
 
+-(void)allHotWhite{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight *light = localNetworkContext.allLightsCollection.lights[0];
+    [localNetworkContext.allLightsCollection setColor:[LFXHSBKColor whiteColorWithBrightness:light.color.brightness kelvin:2500] overDuration:0.0];
+}
+
+-(void)allWarmWhite{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight *light = localNetworkContext.allLightsCollection.lights[0];
+    [localNetworkContext.allLightsCollection setColor:[LFXHSBKColor whiteColorWithBrightness:light.color.brightness kelvin:3500] overDuration:0.0];
+}
+
+-(void)allCoolWhite{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight *light = localNetworkContext.allLightsCollection.lights[0];
+    [localNetworkContext.allLightsCollection setColor:[LFXHSBKColor whiteColorWithBrightness:light.color.brightness kelvin:5500] overDuration:0.0];
+}
+
+-(void)allColdWhite{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight *light = localNetworkContext.allLightsCollection.lights[0];
+    [localNetworkContext.allLightsCollection setColor:[LFXHSBKColor whiteColorWithBrightness:light.color.brightness kelvin:9000] overDuration:0.0];
+}
+
+
 
 -(void)toggleLight:(NSMenuItem*)item{
 	LFXLight *light = [item representedObject];
@@ -155,26 +191,28 @@
  *  Creates an NSMenuItem for the light. Attaches the light to the item be putting it as the menuItem's -representedObject. Then adds it to the menu and the array of lights
  */
 -(void)addLight:(LFXLight*)light{
-	if ([self menuItemForLight:light] != nil) {
-		[self updateLight:light];
-		return;
-	}
-	
-	NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[self titleForLight:light] action:@selector(toggleLight:) keyEquivalent:@""];
-	[item setRepresentedObject:light];
+
+    [self.allLightsMenuItem setRepresentedObject:light];
+    [self updateLightMenuItem:self.allLightsMenuItem];
+
+    [light addLightObserver:self];
+    return;
     
-    LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:@selector(changeBrightness:)];
-    [sliderItem setRepresentedObject:light];
+//	NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[self titleForLight:light] action:@selector(toggleLight:) keyEquivalent:@""];
+//	[item setRepresentedObject:light];
+//    
+//    LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:@selector(changeBrightness:)];
+//    [sliderItem setRepresentedObject:light];
+//    
+//    [item setSubmenu:[[NSMenu alloc] init]];
+//    [[item submenu] addItem:sliderItem];
     
-    [item setSubmenu:[[NSMenu alloc] init]];
-    [[item submenu] addItem:sliderItem];
-    
-	[self updateLightMenuItem:item];
+//	[self updateLightMenuItem:item];
 	
-	[self.menu insertItem:item atIndex:(self.menu.numberOfItems - 3)];
-	[self.lightItems addObject:item];
+	//[self.menu insertItem:item atIndex:(self.menu.numberOfItems - 3)];
+//	[self.lightItems addObject:item];
 	
-	[light addLightObserver:self];
+//	[light addLightObserver:self];
 }
 /**
  *  Removes the light from the menu and array. Also removes self as an observer for that light.
@@ -183,7 +221,7 @@
 	NSMenuItem *item = [self menuItemForLight:light];
 	
 	if (item) {
-		[self.menu removeItem:item];
+		//[self.menu removeItem:item];
 		[self.lightItems removeObject:item];
 	}
 	
@@ -199,8 +237,10 @@
  *  Gets the NSMenuItem object for that light and then updates it.
  */
 -(void)updateLight:(LFXLight*)light{
-	NSMenuItem *item = [self menuItemForLight:light];
-	[self updateLightMenuItem:item];
+//	NSMenuItem *item = [self menuItemForLight:light];
+//	[self updateLightMenuItem:item];
+    [self.allLightsMenuItem setRepresentedObject:light];
+    [self updateLightMenuItem:self.allLightsMenuItem];
 }
 /**
  *  Updates the title and the current state of the lights NSMenuItem.
@@ -208,7 +248,7 @@
 -(void)updateLightMenuItem:(NSMenuItem*)item{
 	LFXLight *light = [item representedObject];
 	
-	[item setTitle:[self titleForLight:light]];
+//	[item setTitle:[self titleForLight:light]];
 	[item setState:((light.powerState == LFXPowerStateOn) ? NSOnState : NSOffState)];
     
     LXMSliderMenuItem *sliderMenuItem = (LXMSliderMenuItem *)[[item submenu] itemWithTitle:@"Brightness"];

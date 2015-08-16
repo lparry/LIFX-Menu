@@ -14,23 +14,12 @@
 		C721970C19E5F79600FCA5CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C721970B19E5F79600FCA5CB /* AppDelegate.m */; };
 		C721970E19E5F79600FCA5CB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C721970D19E5F79600FCA5CB /* Images.xcassets */; };
 		C721971119E5F79700FCA5CB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C721970F19E5F79700FCA5CB /* MainMenu.xib */; };
-		C721971D19E5F79700FCA5CB /* LIFX_MenuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C721971C19E5F79700FCA5CB /* LIFX_MenuTests.m */; };
 		C721973719E5FA1200FCA5CB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C721973519E5FA1200FCA5CB /* libz.dylib */; };
 		C721974219E607BD00FCA5CB /* lifx-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C721974019E607BD00FCA5CB /* lifx-icon.png */; };
 		C721974319E607BD00FCA5CB /* lifx-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C721974119E607BD00FCA5CB /* lifx-icon@2x.png */; };
 		C721975319E631D400FCA5CB /* LaunchAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = C721975219E631D400FCA5CB /* LaunchAtLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C721975419E631FD00FCA5CB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C721973619E5FA1200FCA5CB /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		C721971719E5F79700FCA5CB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C72196FB19E5F79600FCA5CB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C721970219E5F79600FCA5CB;
-			remoteInfo = "LIFX Menu";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		AB0FC2BB1A79F1BF00D90728 /* Embed Frameworks */ = {
@@ -56,7 +45,6 @@
 		C721970B19E5F79600FCA5CB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C721970D19E5F79600FCA5CB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C721971019E5F79700FCA5CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		C721971619E5F79700FCA5CB /* LIFX MenuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LIFX MenuTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C721971B19E5F79700FCA5CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C721971C19E5F79700FCA5CB /* LIFX_MenuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LIFX_MenuTests.m; sourceTree = "<group>"; };
 		C721973519E5FA1200FCA5CB /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -80,13 +68,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C721971319E5F79700FCA5CB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -103,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				C721970319E5F79600FCA5CB /* LIFX Menu.app */,
-				C721971619E5F79700FCA5CB /* LIFX MenuTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -193,24 +173,6 @@
 			productReference = C721970319E5F79600FCA5CB /* LIFX Menu.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C721971519E5F79700FCA5CB /* LIFX MenuTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C721972319E5F79700FCA5CB /* Build configuration list for PBXNativeTarget "LIFX MenuTests" */;
-			buildPhases = (
-				C721971219E5F79700FCA5CB /* Sources */,
-				C721971319E5F79700FCA5CB /* Frameworks */,
-				C721971419E5F79700FCA5CB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C721971819E5F79700FCA5CB /* PBXTargetDependency */,
-			);
-			name = "LIFX MenuTests";
-			productName = "LIFX MenuTests";
-			productReference = C721971619E5F79700FCA5CB /* LIFX MenuTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -223,10 +185,6 @@
 					C721970219E5F79600FCA5CB = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = T7QSHJ836T;
-					};
-					C721971519E5F79700FCA5CB = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = C721970219E5F79600FCA5CB;
 					};
 				};
 			};
@@ -244,7 +202,6 @@
 			projectRoot = "";
 			targets = (
 				C721970219E5F79600FCA5CB /* LIFX Menu */,
-				C721971519E5F79700FCA5CB /* LIFX MenuTests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,13 +215,6 @@
 				C721971119E5F79700FCA5CB /* MainMenu.xib in Resources */,
 				C721974319E607BD00FCA5CB /* lifx-icon@2x.png in Resources */,
 				C721974219E607BD00FCA5CB /* lifx-icon.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C721971419E5F79700FCA5CB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,23 +232,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C721971219E5F79700FCA5CB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C721971D19E5F79700FCA5CB /* LIFX_MenuTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C721971819E5F79700FCA5CB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C721970219E5F79600FCA5CB /* LIFX Menu */;
-			targetProxy = C721971719E5F79700FCA5CB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C721970F19E5F79700FCA5CB /* MainMenu.xib */ = {
@@ -396,15 +330,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/LIFX",
-					Menu,
-					"$(PROJECT_DIR)/LIFX",
-					Menu,
+					"\"$(PROJECT_DIR)/LIFX MENU\"",
 				);
 				INFOPLIST_FILE = "LIFX Menu/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_STYLE = all;
 			};
 			name = Debug;
 		};
@@ -413,54 +346,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/LIFX",
-					Menu,
-					"$(PROJECT_DIR)/LIFX",
-					Menu,
+					"\"$(PROJECT_DIR)/LIFX MENU\"",
 				);
 				INFOPLIST_FILE = "LIFX Menu/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		C721972419E5F79700FCA5CB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "LIFX MenuTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LIFX Menu.app/Contents/MacOS/LIFX Menu";
-			};
-			name = Debug;
-		};
-		C721972519E5F79700FCA5CB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "LIFX MenuTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LIFX Menu.app/Contents/MacOS/LIFX Menu";
+				STRIP_STYLE = all;
 			};
 			name = Release;
 		};
@@ -481,15 +378,6 @@
 			buildConfigurations = (
 				C721972119E5F79700FCA5CB /* Debug */,
 				C721972219E5F79700FCA5CB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C721972319E5F79700FCA5CB /* Build configuration list for PBXNativeTarget "LIFX MenuTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C721972419E5F79700FCA5CB /* Debug */,
-				C721972519E5F79700FCA5CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -60,7 +60,27 @@
 	
 	// Separator to the section with the individual lights
 	[self.menu addItem:[NSMenuItem separatorItem]];
+
+    
+        //dsfsdfsd
+    
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All Lights" action:@selector(allLightsToggle) keyEquivalent:@""];
+//    [item setRepresentedObject:light];
+    
+    LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:nil];//@selector(changeAllBrightness)];
+    //[sliderItem setRepresentedObject:light];
+    
+    [item setSubmenu:[[NSMenu alloc] init]];
+    [[item submenu] addItem:sliderItem];
+    
+    
+    [self.menu addItem:item];
+    
+        //dsfsdfsd
+
 	
+    
+    
 	
 	[self.menu addItem:[NSMenuItem separatorItem]];
 	autorunItem = [[NSMenuItem alloc] initWithTitle:@"Launch at login" action:@selector(autoLaunchPressed) keyEquivalent:@""];
@@ -101,6 +121,12 @@
 	LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
 	[localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOff];
 }
+-(void)allLightsToggle{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight * light = localNetworkContext.allLightsCollection.lights[0];
+    [localNetworkContext.allLightsCollection setPowerState:((light.powerState == LFXPowerStateOn) ? LFXPowerStateOff : LFXPowerStateOn)];
+    
+}
 
 
 -(void)toggleLight:(NSMenuItem*)item{
@@ -137,7 +163,7 @@
     
 	[self updateLightMenuItem:item];
 	
-	[self.menu insertItem:item atIndex:(self.menu.numberOfItems - 2)];
+	[self.menu insertItem:item atIndex:(self.menu.numberOfItems - 3)];
 	[self.lightItems addObject:item];
 	
 	[light addLightObserver:self];

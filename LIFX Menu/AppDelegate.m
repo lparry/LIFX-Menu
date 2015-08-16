@@ -67,7 +67,8 @@
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All Lights" action:@selector(allLightsToggle) keyEquivalent:@""];
 //    [item setRepresentedObject:light];
     
-    LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:nil];//@selector(changeAllBrightness)];
+    LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:@selector(changeAllBrightness:)];
+    
     //[sliderItem setRepresentedObject:light];
     
     [item setSubmenu:[[NSMenu alloc] init]];
@@ -137,6 +138,13 @@
 -(void)changeBrightness:(LXMSliderMenuItem *)item{
 	LFXLight *light = [item representedObject];
     [light setColor:[[light color] colorWithBrightness:[[item slider] floatValue]]];
+}
+
+-(void)changeAllBrightness:(LXMSliderMenuItem *)item{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight *light = localNetworkContext.allLightsCollection.lights[0];
+
+    [localNetworkContext.allLightsCollection setColor:[[light color] colorWithBrightness:[[item slider] floatValue]]];
 }
 
 

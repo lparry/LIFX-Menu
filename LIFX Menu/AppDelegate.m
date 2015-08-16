@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Kyle Howells. All rights reserved.
 //
 
-#import <LIFXKit/LIFXKit.h>
+#import "LIFXKit.framework/Headers/LIFXKit.h"
 #import "AppDelegate.h"
 #import "LaunchAtLoginController.h"
-
+#import "LXMSliderMenuItem.h"
 
 @interface AppDelegate () <LFXLightCollectionObserver, LFXLightObserver>
 @property (nonatomic, strong) NSStatusItem *statusItem;
@@ -26,6 +26,7 @@
 @implementation AppDelegate{
 	LaunchAtLoginController *loginController;
 	NSMenuItem *autorunItem;
+	NSMenuItem *quitItem;
 }
 
 #pragma mark - Application Delegate methods
@@ -54,18 +55,44 @@
 	self.menu = [[NSMenu alloc] init];
 	
 	// Always there buttons
-	[self.menu addItemWithTitle:@"Turn all lights on" action:@selector(allLightsOn) keyEquivalent:@""];
-	[self.menu addItemWithTitle:@"Turn all lights off" action:@selector(allLightsOff) keyEquivalent:@""];
+//	[self.menu addItemWithTitle:@"Turn all lights on" action:@selector(allLightsOn) keyEquivalent:@""];
+//	[self.menu addItemWithTitle:@"Turn all lights off" action:@selector(allLightsOff) keyEquivalent:@""];
 	
 	// Separator to the section with the individual lights
-	[self.menu addItem:[NSMenuItem separatorItem]];
+//	[self.menu addItem:[NSMenuItem separatorItem]];
+
+    
+        //dsfsdfsd
+    
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"All Lights" action:@selector(allLightsToggle) keyEquivalent:@""];
+//    [item setRepresentedObject:light];
+    
+    LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:@selector(changeAllBrightness:)];
+    
+    //[sliderItem setRepresentedObject:light];
+    
+    [item setSubmenu:[[NSMenu alloc] init]];
+    [[item submenu] addItem:sliderItem];
+    
+    
+    [self.menu addItem:item];
+    
+        //dsfsdfsd
+
 	
+    
+    
 	
 	[self.menu addItem:[NSMenuItem separatorItem]];
 	autorunItem = [[NSMenuItem alloc] initWithTitle:@"Launch at login" action:@selector(autoLaunchPressed) keyEquivalent:@""];
 	[self.menu addItem:autorunItem];
 	[self updateAutoLaunch];
 	
+    
+    
+    quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quitApplication) keyEquivalent:@""];
+    [self.menu addItem:quitItem];
+    
 	self.statusItem.menu = self.menu;
 	
 	
@@ -95,6 +122,12 @@
 	LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
 	[localNetworkContext.allLightsCollection setPowerState:LFXPowerStateOff];
 }
+-(void)allLightsToggle{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight * light = localNetworkContext.allLightsCollection.lights[0];
+    [localNetworkContext.allLightsCollection setPowerState:((light.powerState == LFXPowerStateOn) ? LFXPowerStateOff : LFXPowerStateOn)];
+    
+}
 
 
 -(void)toggleLight:(NSMenuItem*)item{
@@ -102,7 +135,17 @@
 	[light setPowerState:((light.powerState == LFXPowerStateOn) ? LFXPowerStateOff : LFXPowerStateOn)];
 }
 
+-(void)changeBrightness:(LXMSliderMenuItem *)item{
+	LFXLight *light = [item representedObject];
+    [light setColor:[[light color] colorWithBrightness:[[item slider] floatValue]]];
+}
 
+-(void)changeAllBrightness:(LXMSliderMenuItem *)item{
+    LFXNetworkContext *localNetworkContext = [[LFXClient sharedClient] localNetworkContext];
+    LFXLight *light = localNetworkContext.allLightsCollection.lights[0];
+
+    [localNetworkContext.allLightsCollection setColor:[[light color] colorWithBrightness:[[item slider] floatValue]]];
+}
 
 
 
@@ -119,9 +162,16 @@
 	
 	NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[self titleForLight:light] action:@selector(toggleLight:) keyEquivalent:@""];
 	[item setRepresentedObject:light];
+    
+    LXMSliderMenuItem *sliderItem = [[LXMSliderMenuItem alloc] initWithTitle:@"Brightness" target:self action:@selector(changeBrightness:)];
+    [sliderItem setRepresentedObject:light];
+    
+    [item setSubmenu:[[NSMenu alloc] init]];
+    [[item submenu] addItem:sliderItem];
+    
 	[self updateLightMenuItem:item];
 	
-	[self.menu insertItem:item atIndex:(self.menu.numberOfItems - 2)];
+	[self.menu insertItem:item atIndex:(self.menu.numberOfItems - 3)];
 	[self.lightItems addObject:item];
 	
 	[light addLightObserver:self];
@@ -158,8 +208,13 @@
 -(void)updateLightMenuItem:(NSMenuItem*)item{
 	LFXLight *light = [item representedObject];
 	
-	[item setTitle:(light.label ?: light.deviceID)];
+	[item setTitle:[self titleForLight:light]];
 	[item setState:((light.powerState == LFXPowerStateOn) ? NSOnState : NSOffState)];
+    
+    LXMSliderMenuItem *sliderMenuItem = (LXMSliderMenuItem *)[[item submenu] itemWithTitle:@"Brightness"];
+    [[sliderMenuItem slider] setMinValue:LFXHSBKColorMinBrightness];
+    [[sliderMenuItem slider] setMaxValue:LFXHSBKColorMaxBrightness];
+    [[sliderMenuItem slider] setFloatValue:light.color.brightness];
 }
 
 
@@ -189,6 +244,9 @@
 -(void)light:(LFXLight *)light didChangePowerState:(LFXPowerState)powerState{
 	[self updateLight:light];
 }
+-(void)light:(LFXLight *)light didChangeColor:(LFXHSBKColor *)color {
+    [self updateLight:light];
+}
 
 
 
@@ -212,7 +270,7 @@
 	return item;
 }
 -(NSString*)titleForLight:(LFXLight*)light{
-	return (light.label ?: light.deviceID);
+	return ([light.label length] > 0 ? light.label : light.deviceID);
 }
 
 
@@ -256,6 +314,12 @@
 	else {
 		[self setAutoLaunch:YES];
 	}
+}
+
+#pragma mark - Quit Application
+
+-(void)quitApplication{
+    [NSApp terminate:self];
 }
 
 

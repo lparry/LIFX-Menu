@@ -55,11 +55,11 @@
 	self.menu = [[NSMenu alloc] init];
 	
 	// Always there buttons
-	[self.menu addItemWithTitle:@"Turn all lights on" action:@selector(allLightsOn) keyEquivalent:@""];
-	[self.menu addItemWithTitle:@"Turn all lights off" action:@selector(allLightsOff) keyEquivalent:@""];
+//	[self.menu addItemWithTitle:@"Turn all lights on" action:@selector(allLightsOn) keyEquivalent:@""];
+//	[self.menu addItemWithTitle:@"Turn all lights off" action:@selector(allLightsOff) keyEquivalent:@""];
 	
 	// Separator to the section with the individual lights
-	[self.menu addItem:[NSMenuItem separatorItem]];
+//	[self.menu addItem:[NSMenuItem separatorItem]];
 
     
         //dsfsdfsd
